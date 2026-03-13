@@ -1,0 +1,108 @@
+index.hml <!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="UTF-8"> 
+<title>Store with Cart & Dummy Payment - Clarity</title> 
+<!-- Microsoft Clarity Tracking Code --> 
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vuyci9kj39");
+</script>
+<style> 
+body { font-family: Arial; text-align: center; } 
+.product, #cart { 
+ border: 1px solid #ccc; 
+ padding: 15px; 
+ margin: 15px; 
+ width: 250px; 
+ display: inline-block; 
+ vertical-align: top;
+} 
+button { 
+ padding: 6px 10px; 
+ background: green; 
+ color: white; 
+ border: none; 
+ cursor: pointer; 
+ margin-top: 5px; 
+} 
+#cart { background: #f9f9f9; } #paymentBox { 
+ display: none; 
+ border: 2px solid black;  padding: 20px; 
+ width: 300px; 
+ margin: auto; 
+ background: #eee; 
+} 
+</style> 
+</head> 
+<body> 
+<h2>My Online Store</h2> <!-- PRODUCTS -->
+<div class="product"> 
+<h3>Smart Watch</h3> 
+<p>₹2500</p> 
+<button onclick="addToCart('SW01','Smart Watch',2500)">Add to Cart</button> </div> 
+<div class="product"> 
+<h3>Bluetooth Speaker</h3> 
+<p>₹1800</p> 
+<button onclick="addToCart('BS02','Bluetooth Speaker',1800)">Add to Cart</button> </div> 
+<div class="product"> 
+<h3>Wireless Earbuds</h3> 
+<p>₹3200</p> 
+<button onclick="addToCart('WE03','Wireless Earbuds',3200)">Add to Cart</button> </div> 
+<div class="product"> 
+<h3>Fitness Band</h3> 
+<p>₹1500</p> 
+<button onclick="addToCart('FB04','Fitness Band',1500)">Add to Cart</button> </div> 
+<!-- CART --> 
+<div id="cart">
+<h3>Shopping Cart</h3> 
+<ul id="cartItems"></ul> 
+<p><strong>Total: ₹<span id="total">0</span></strong></p> 
+<button onclick="openPayment()">Buy Now</button> 
+</div> 
+<!-- PAYMENT GATEWAY --> 
+<div id="paymentBox"> 
+<h3>Dummy Payment Gateway</h3> 
+<p>Total Amount: ₹<span id="payAmount"></span></p> 
+<input type="text" id="cardNumber" placeholder="Enter Card Number"><br><br> 
+<button onclick="processPayment()">Pay</button> 
+<button onclick="closePayment()">Cancel</button> 
+<p><small> 
+Use 1111 1111 1111 1111 → Success<br> 
+Use 2222 2222 2222 2222 → Failed 
+</small></p> 
+</div> 
+<script> 
+let cart = []; 
+let totalAmount = 0;
+function addToCart(id, name, price) { 
+ cart.push({id, name, price}); 
+ totalAmount += price; 
+ document.getElementById("cartItems").innerHTML +=   "<li>" + name + " - ₹" + price + "</li>"; 
+ document.getElementById("total").innerText = totalAmount; } 
+function openPayment() { 
+ if(cart.length === 0){ 
+ alert("Cart is empty!"); 
+ return; 
+ } 
+ document.getElementById("payAmount").innerText = totalAmount;  document.getElementById("paymentBox").style.display = "block"; } 
+function closePayment() { 
+ document.getElementById("paymentBox").style.display = "none"; } 
+function processPayment() {
+ let card = document.getElementById("cardNumber").value.trim();  if(card === "1111 1111 1111 1111") { 
+ alert("Payment Successful!"); 
+ cart = []; 
+ totalAmount = 0; 
+ document.getElementById("cartItems").innerHTML = "";  document.getElementById("total").innerText = "0";  closePayment(); 
+ } else if(card === "2222 2222 2222 2222") { 
+ alert("Payment Failed!"); 
+ } else { 
+ alert("Invalid Card! Payment Failed."); 
+ } 
+} 
+</script> 
+</body> 
+</html> 
