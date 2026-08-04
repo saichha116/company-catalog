@@ -1,0 +1,558 @@
+/* Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f8f8f8;
+}
+
+/* Navbar */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 30px;
+
+  background: white;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* Logo */
+
+.logo img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+/* Search */
+
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 650px;      /* Increase width */
+  height: 50px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  padding: 0 15px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.search-icon {
+  color: gray;
+}
+
+/* Icons */
+
+.nav-icons {
+  display: flex;
+  gap: 25px;
+
+  font-size: 24px;
+
+  cursor: pointer;
+}
+/* Menu */
+
+.menu {
+  display: flex;
+  gap: 40px;
+
+  padding: 15px 30px;
+
+  background: white;
+
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.menu a {
+  text-decoration: none;
+
+  color: black;
+
+  font-size: 18px;
+
+  font-weight: 500;
+
+  transition: 0.3s;
+}
+
+.menu a:hover {
+  color: #007bff;
+}
+/* ================= HERO ================= */
+
+.hero{
+
+    width:90%;
+
+    margin:40px auto;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:20px;
+
+}
+
+.hero img{
+
+    width:100%;
+
+    height:400px;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.hero-content{
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.hero-content h1{
+
+    font-size:48px;
+
+    margin-bottom:15px;
+
+}
+
+.hero-content p{
+
+    font-size:22px;
+
+    margin-bottom:25px;
+
+}
+
+.hero-content button{
+
+    padding:14px 35px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ff6600;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+.hero-content button:hover{
+
+    background:#e55b00;
+
+}
+/* ================= SERVICES ================= */
+
+.services {
+  width: 90%;
+  margin: 50px auto;
+}
+
+.services h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.services-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 25px;
+}
+
+.service-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+
+  width: 100%;
+  min-height: 480px;   /* Taller card */
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+}
+
+.service-card img {
+  width: 100%;
+  height: 220px;
+
+  object-fit: cover;
+}
+
+.service-card h3 {
+  margin: 15px;
+}
+
+.service-card p {
+  margin: 15px;
+  color: #555;
+}
+
+.service-card button {
+  margin: 15px;
+
+  padding: 10px 18px;
+
+  border: none;
+
+  background: #ff6600;
+
+  color: white;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.service-card button:hover {
+  background: #e55b00;
+}
+.card-image {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+
+  background: crimson;
+  color: white;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.category {
+  color: gray;
+  font-size: 14px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: orange;
+
+  margin: 10px 0;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+.service-card button {
+  width: 100%;
+  margin-top: 15px;
+}
+/* CATEGORY BAR */
+
+.category-bar {
+
+  width:90%;
+
+  margin:40px auto;
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:15px;
+
+  flex-wrap:wrap;
+
+}
+
+
+.category-bar button {
+
+  padding:12px 28px;
+
+  border:none;
+
+  border-radius:30px;
+
+  background:#f1f1f1;
+
+  font-size:16px;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+}
+
+
+.category-bar button:hover {
+
+  transform:translateY(-3px);
+
+  background:#ddd;
+
+}
+
+
+.category-bar button.active {
+
+  background:#ff6600;
+
+  color:white;
+
+  box-shadow:0 5px 15px rgba(255,102,0,0.3);
+
+}
+/* SERVICE CARD */
+
+
+.service-card {
+
+  background:white;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+  box-shadow:
+  0 8px 25px rgba(0,0,0,0.08);
+
+  transition:0.3s;
+
+}
+
+
+.service-card:hover {
+
+  transform:translateY(-10px);
+
+}
+
+
+/* IMAGE */
+
+.card-image {
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+
+.card-image img {
+
+  width:100%;
+
+  height:230px;
+
+  object-fit:cover;
+
+  transition:0.4s;
+
+}
+
+
+.card-image:hover img {
+
+  transform:scale(1.1);
+
+}
+
+
+
+/* BADGE */
+
+
+.badge {
+
+  position:absolute;
+
+  top:15px;
+
+  left:15px;
+
+  background:#ff6600;
+
+  color:white;
+
+  padding:6px 14px;
+
+  border-radius:20px;
+
+  font-size:13px;
+
+}
+
+
+
+/* CONTENT */
+
+
+.card-content {
+
+  padding:20px;
+
+}
+
+
+.category {
+
+  color:#777;
+
+  font-size:14px;
+
+}
+
+
+.card-content h3 {
+
+  margin:10px 0;
+
+  font-size:22px;
+
+}
+
+
+
+.rating {
+
+  margin:10px 0;
+
+}
+
+
+
+.price {
+
+  font-size:20px;
+
+  font-weight:bold;
+
+}
+
+
+
+/* BUTTON */
+
+
+.card-content button {
+
+  width:100%;
+
+  margin-top:15px;
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:25px;
+
+  background:#ff6600;
+
+  color:white;
+
+  cursor:pointer;
+
+  transition:0.3s;
+
+}
+
+
+
+.card-content button:hover {
+
+  background:#e55500;
+
+}
+.hero-banner {
+  width: 100%;
+  height: 200px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.hero-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.hero-overlay p {
+  font-size: 22px;
+}
