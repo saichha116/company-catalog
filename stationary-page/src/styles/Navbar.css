@@ -1,0 +1,132 @@
+/* Main Navbar */
+.navbar-container {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Top Section */
+.navbar-top {
+  max-width: 1400px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 30px;
+  gap: 30px;
+}
+
+/* Logo */
+.logo img {
+  height: auto px;
+  width: 160;
+  cursor: pointer;
+}
+
+/* Search Box */
+.search-box {
+  flex: 1;
+  max-width: 750px;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  padding: 10px 18px;
+}
+
+.search-icon {
+  color: #666;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  outline: none;
+}
+
+/* Right Icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-icons svg {
+  font-size: 24px;
+  color: #222;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-icons svg:hover {
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* Bottom Navigation */
+.navbar-bottom {
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.navbar-bottom ul {
+  max-width: 1400px;
+  margin: auto;
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  list-style: none;
+  padding: 0 30px;
+}
+
+/* Navigation Links */
+.navbar-bottom li {
+  list-style: none;
+}
+
+.navbar-bottom li a {
+  text-decoration: none;
+  color: #000;              /* Black text */
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.navbar-bottom li a:hover {
+  color: #000;
+  border-bottom: 2px solid #000;
+  padding-bottom: 4px;
+}
+
+/* Active Page */
+.navbar-bottom li a.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+  padding-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .navbar-top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .navbar-bottom ul {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}
