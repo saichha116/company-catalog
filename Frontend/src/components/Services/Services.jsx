@@ -25,9 +25,7 @@ function Services() {
           </div>
         ))}
 
-        <button className="arrow-btn">
-          &#8594;
-        </button>
+       
 
       </div>
 
