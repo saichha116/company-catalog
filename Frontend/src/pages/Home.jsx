@@ -12,7 +12,6 @@ function Home() {
   <Categories />
   <Services />
   <BestSellers />
-  
 </>
     
   );
