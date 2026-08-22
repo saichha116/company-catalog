@@ -74,3 +74,11 @@
   min-width: 0;
 }
 
+.category-card {
+  cursor: pointer;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}

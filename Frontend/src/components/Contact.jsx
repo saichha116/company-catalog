@@ -30,7 +30,7 @@ function Contact() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/feedback",
+     "http://localhost:5000/api/feedback",
         {
           method: "POST",
           headers: {

@@ -1,11 +1,11 @@
 .swiper {
   width: 100%;
-  height: 650px;
+  height: 900px;
 }
 
 .swiper-slide img {
   width: 100%;
-  height: 650px;
+  height: 900px;
   object-fit:fill;
 }
 .swiper-button-next,
