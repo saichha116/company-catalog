@@ -1,13 +1,8 @@
-
 const db = require("../config/db");
-
-
 // ===============================
 // Add Product
 // ===============================
-
 const addProduct = (req, res) => {
-
     const {
         category_id,
         subcategory_id,
@@ -18,11 +13,9 @@ const addProduct = (req, res) => {
         stock
     } = req.body;
 
-
     const image = req.file
         ? req.file.filename
         : null;
-
 
     const sql = `
         INSERT INTO products
@@ -38,8 +31,6 @@ const addProduct = (req, res) => {
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-
-
     db.query(
         sql,
         [
@@ -77,31 +68,24 @@ const addProduct = (req, res) => {
     );
 
 };
-
-
-
 // ===============================
 // Get All Products
 // ===============================
-
 const getProducts = (req, res) => {
 
-    const sql = `
+const sql = `
         SELECT
             p.*,
             c.category_name,
+            c.main_category_id,
             s.subcategory_name
         FROM products p
-
         JOIN categories c
         ON p.category_id = c.category_id
-
         LEFT JOIN subcategories s
         ON p.subcategory_id = s.subcategory_id
-
         ORDER BY p.product_id DESC
     `;
-
 
     db.query(sql, (err, result) => {
 
@@ -114,15 +98,11 @@ const getProducts = (req, res) => {
             });
 
         }
-
-
         res.json(result);
 
     });
 
 };
-
-
 
 // ===============================
 // Delete Product
@@ -161,9 +141,6 @@ const deleteProduct = (req, res) => {
     });
 
 };
-
-
-
 // ===============================
 // Get Single Product
 // ===============================
@@ -172,12 +149,12 @@ const getProductById = (req, res) => {
 
     const { id } = req.params;
 
-
     const sql = `
         SELECT
-            p.*,
-            c.category_name,
-            s.subcategory_name
+    p.*,
+    c.category_name,
+    c.category_image,
+    s.subcategory_name
         FROM products p
 
         JOIN categories c
@@ -188,7 +165,6 @@ const getProductById = (req, res) => {
 
         WHERE p.product_id = ?
     `;
-
 
     db.query(sql, [id], (err, result) => {
 
@@ -201,15 +177,11 @@ const getProductById = (req, res) => {
             });
 
         }
-
-
         res.json(result[0]);
 
     });
 
 };
-
-
 
 // ===============================
 // Update Product
@@ -218,8 +190,6 @@ const getProductById = (req, res) => {
 const updateProduct = (req, res) => {
 
     const { id } = req.params;
-
-
     const {
         category_id,
         subcategory_id,
@@ -230,15 +200,12 @@ const updateProduct = (req, res) => {
         stock
     } = req.body;
 
-
     const image = req.file
         ? req.file.filename
         : null;
 
-
     let sql;
     let values;
-
 
     if (image) {
 
@@ -256,7 +223,6 @@ const updateProduct = (req, res) => {
             WHERE product_id=?
         `;
 
-
         values = [
 
             category_id,
@@ -272,7 +238,6 @@ const updateProduct = (req, res) => {
         ];
 
     }
-
 
     else {
 
