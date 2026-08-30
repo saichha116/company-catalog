@@ -1,192 +1,183 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import "../styles/ProductPage.css";
+import axios from "axios";
+
 import HeroSection from "../components/HeroSection";
 import CategoryFilter from "../components/CategoryFilter";
 import ProductCard from "../components/ProductCard";
-import products from "../data/products";
+
+import "../styles/ProductPage.css";
 
 function ProductPage({
   cart,
   setCart,
   wishlist,
   setWishlist,
-  searchTerm,
-  setSearchTerm,
 }) {
   const [searchParams] = useSearchParams();
 
-  const categoryFromURL = searchParams.get("category");
+  const categoryFromUrl = searchParams.get("category");
+
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [selectedCategory, setSelectedCategory] = useState(
-    categoryFromURL || "All"
+    categoryFromUrl || "All"
   );
 
-  // =========================
-  // ADD TO CART
-  // =========================
-  const addToCart = async (product,quantity=1) => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/cart",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: 1,
-            product_id: product.id,
-            quantity: quantity,
-          }),
-        }
-      );
+  // ===============================
+  // UPDATE CATEGORY FROM URL
+  // ===============================
 
-      const data = await response.json();
+  useEffect(() => {
+    setSelectedCategory(categoryFromUrl || "All");
+  }, [categoryFromUrl]);
 
-      if (!response.ok) {
-        console.error("Cart Error:", data);
-        alert(data.message || "Unable to add product to cart");
-        return;
-      }
 
-      console.log(data);
+  // ===============================
+  // GET PRODUCTS FROM DATABASE
+  // ===============================
 
-      // Update React cart
-      const existingProduct = cart.find(
-        (item) => item.id === product.id
-      );
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/products")
+      .then((res) => {
+        console.log("Products:", res.data);
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.error("Product fetch error:", err);
+      });
+  }, []);
 
-      if (existingProduct) {
-        setCart(
-          cart.map((item) =>
-            item.id === product.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + quantity,
-                }
-              : item
-          )
-        );
-      } else {
-        setCart([
-          ...cart,
-          {
-            ...product,
-            quantity: quantity,
-          },
-        ]);
-      }
 
-      alert(`${product.name} added to cart!`);
-    } catch (error) {
-      console.error("Add to cart error:", error);
-      alert("Server is not running");
-    }
-  };
-
-  // =========================
-  // ADD TO WISHLIST
-  // =========================
-  const addToWishlist = (product) => {
-    // Check if product already exists
-    const alreadyAdded = wishlist.some(
-      (item) => item.id === product.id
-    );
-
-    if (alreadyAdded) {
-      alert(`${product.name} is already in your wishlist!`);
-      return;
-    }
-
-    // Add product to wishlist
-    setWishlist([
-      ...wishlist,
-      product,
-    ]);
-
-    alert(`${product.name} added to wishlist!`);
-  };
-
-  // =========================
-  // REMOVE FROM WISHLIST
-  // =========================
-  const removeFromWishlist = (productId) => {
-    setWishlist(
-      wishlist.filter(
-        (item) => item.id !== productId
-      )
-    );
-  };
-
-  // =========================
+  // ===============================
   // FILTER PRODUCTS
-  // =========================
+  // ===============================
+
   const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name
+    const productName = product.product_name || "";
+
+    const matchesSearch = productName
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
     const matchesCategory =
       selectedCategory === "All" ||
-      product.category === selectedCategory ||
-      product.subCategory === selectedCategory;
+      product.category_name === selectedCategory ||
+      product.subcategory_name === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
 
+
+  // ===============================
+  // ADD TO CART
+  // ===============================
+
+  const addToCart = (product) => {
+    setCart([
+      ...cart,
+      product,
+    ]);
+
+    alert(`${product.product_name} added to cart!`);
+  };
+
+
   return (
-    <>
-      {/* HERO SECTION */}
-      <HeroSection
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+    <div className="product-page">
 
-      {/* PRODUCTS SECTION */}
-      <section className="products-section">
+      <div className="page-container">
 
-        {/* CATEGORY FILTER */}
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
+        {/* ===============================
+            HERO
+        =============================== */}
+
+        <HeroSection
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
         />
 
-        {/* TITLE */}
-        <h2 className="section-title">
-          {selectedCategory === "All"
-            ? "All Products"
-            : selectedCategory}
-        </h2>
 
-        {/* PRODUCT GRID */}
-        <div className="product-grid">
+        {/* ===============================
+            PRODUCTS
+        =============================== */}
 
-          {filteredProducts.length > 0 ? (
+        <section className="products-section">
 
-            filteredProducts.map((product) => (
 
-           <ProductCard
-  key={product.id}
-  product={product}
-  addToCart={addToCart}
-  wishlist={wishlist}
-  setWishlist={setWishlist}
-/>
+          {/* ===============================
+              CATEGORY FILTER
+          =============================== */}
 
-            ))
+          <div className="category-filter-wrapper">
 
-          ) : (
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
 
-            <h3>No products found.</h3>
+          </div>
 
-          )}
 
-        </div>
+          {/* ===============================
+              SELECTED CATEGORY
+          =============================== */}
 
-      </section>
-    </>
+          <div className="selected-category-heading">
+
+            <h2>
+              {selectedCategory === "All"
+                ? "All Products"
+                : selectedCategory}
+            </h2>
+
+          </div>
+
+
+          {/* ===============================
+              PRODUCT GRID
+          =============================== */}
+
+          <div className="product-grid">
+
+            {filteredProducts.length > 0 ? (
+
+              filteredProducts.map((product) => (
+
+                <ProductCard
+                  key={product.product_id}
+                  product={product}
+                  addToCart={addToCart}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                />
+
+              ))
+
+            ) : (
+
+              <div className="no-products">
+
+                <h3>
+                  No products found.
+                </h3>
+
+              </div>
+
+            )}
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
   );
 }
 
 export default ProductPage;
+

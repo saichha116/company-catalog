@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("./config/db");
 
-// ==========================================
+// ======================================================
 // GET WISHLIST FOR A USER
-// ==========================================
+// Supports BOTH products and services
+// ======================================================
 router.get("/:userId", (req, res) => {
   const { userId } = req.params;
 
@@ -16,12 +17,15 @@ router.get("/:userId", (req, res) => {
       w.service_id,
       w.created_at,
 
+      -- PRODUCT DETAILS
       p.product_name,
       p.description AS product_description,
       p.min_price AS product_min_price,
       p.max_price AS product_max_price,
       p.image AS product_image,
+      p.stock AS product_stock,
 
+      -- SERVICE DETAILS
       s.service_name,
       s.description AS service_description,
       s.min_price AS service_min_price,
@@ -44,128 +48,242 @@ router.get("/:userId", (req, res) => {
   db.query(sql, [userId], (err, results) => {
     if (err) {
       console.error("Error fetching wishlist:", err);
+
       return res.status(500).json({
         message: "Failed to fetch wishlist",
       });
     }
 
     const wishlist = results.map((item) => {
+
+      // ================================================
+      // PRODUCT
+      // ================================================
       if (item.product_id !== null) {
         return {
           wishlist_id: item.wishlist_id,
+
           id: item.product_id,
           type: "product",
-          title: item.product_name,
+
           name: item.product_name,
+          title: item.product_name,
+
           description: item.product_description,
+
           image: item.product_image,
+
           min_price: item.product_min_price,
           max_price: item.product_max_price,
+
+          stock: item.product_stock,
         };
       }
 
-      return {
-        wishlist_id: item.wishlist_id,
-        id: item.service_id,
-        type: "service",
-        title: item.service_name,
-        name: item.service_name,
-        description: item.service_description,
-        image: item.service_image,
-        min_price: item.service_min_price,
-        max_price: item.service_max_price,
-      };
-    });
+      // ================================================
+      // SERVICE
+      // ================================================
+      if (item.service_id !== null) {
+        return {
+          wishlist_id: item.wishlist_id,
+
+          id: item.service_id,
+          type: "service",
+
+          name: item.service_name,
+          title: item.service_name,
+
+          description: item.service_description,
+
+          image: item.service_image,
+
+          min_price: item.service_min_price,
+          max_price: item.service_max_price,
+
+          stock: null,
+        };
+      }
+
+      return null;
+    }).filter(Boolean);
 
     res.json(wishlist);
   });
 });
 
-// ==========================================
-// ADD TO WISHLIST
-// ==========================================
+
+// ======================================================
+// ADD PRODUCT OR SERVICE TO WISHLIST
+// ======================================================
 router.post("/", (req, res) => {
+
   const {
     user_id,
     item_id,
     item_type,
   } = req.body;
 
+  // ================================================
+  // VALIDATION
+  // ================================================
   if (!user_id || !item_id || !item_type) {
     return res.status(400).json({
       message: "user_id, item_id and item_type are required",
     });
   }
 
-  if (!["product", "service"].includes(item_type)) {
-    return res.status(400).json({
-      message: "item_type must be product or service",
-    });
-  }
+  // ================================================
+  // PRODUCT
+  // ================================================
+  if (item_type === "product") {
 
-  const checkColumn =
-    item_type === "product"
-      ? "product_id"
-      : "service_id";
-
-  const sql = `
-    SELECT wishlist_id
-    FROM wishlist
-    WHERE user_id = ?
-      AND ${checkColumn} = ?
-  `;
-
-  db.query(sql, [user_id, item_id], (err, results) => {
-    if (err) {
-      console.error("Error checking wishlist:", err);
-      return res.status(500).json({
-        message: "Failed to check wishlist",
-      });
-    }
-
-    if (results.length > 0) {
-      return res.status(409).json({
-        message: "Item already exists in wishlist",
-      });
-    }
-
-    const productId =
-      item_type === "product" ? item_id : null;
-
-    const serviceId =
-      item_type === "service" ? item_id : null;
-
-    const insertSql = `
-      INSERT INTO wishlist
-      (user_id, product_id, service_id)
-      VALUES (?, ?, ?)
+    const checkSql = `
+      SELECT wishlist_id
+      FROM wishlist
+      WHERE user_id = ?
+        AND product_id = ?
     `;
 
     db.query(
-      insertSql,
-      [user_id, productId, serviceId],
-      (err, result) => {
+      checkSql,
+      [user_id, item_id],
+      (err, results) => {
+
         if (err) {
-          console.error("Error adding wishlist:", err);
+          console.error(
+            "Error checking product wishlist:",
+            err
+          );
 
           return res.status(500).json({
-            message: "Failed to add item to wishlist",
+            message: "Failed to check wishlist",
           });
         }
 
-        res.status(201).json({
-          message: "Item added to wishlist",
-          wishlist_id: result.insertId,
-        });
+        if (results.length > 0) {
+          return res.status(409).json({
+            message: "Product already exists in wishlist",
+          });
+        }
+
+        const insertSql = `
+          INSERT INTO wishlist
+          (user_id, product_id, service_id)
+          VALUES (?, ?, NULL)
+        `;
+
+        db.query(
+          insertSql,
+          [user_id, item_id],
+          (err, result) => {
+
+            if (err) {
+              console.error(
+                "Error adding product to wishlist:",
+                err
+              );
+
+              return res.status(500).json({
+                message: "Failed to add product to wishlist",
+              });
+            }
+
+            res.status(201).json({
+              message: "Product added to wishlist",
+              wishlist_id: result.insertId,
+            });
+          }
+        );
       }
     );
+
+    return;
+  }
+
+
+  // ================================================
+  // SERVICE
+  // ================================================
+  if (item_type === "service") {
+
+    const checkSql = `
+      SELECT wishlist_id
+      FROM wishlist
+      WHERE user_id = ?
+        AND service_id = ?
+    `;
+
+    db.query(
+      checkSql,
+      [user_id, item_id],
+      (err, results) => {
+
+        if (err) {
+          console.error(
+            "Error checking service wishlist:",
+            err
+          );
+
+          return res.status(500).json({
+            message: "Failed to check wishlist",
+          });
+        }
+
+        if (results.length > 0) {
+          return res.status(409).json({
+            message: "Service already exists in wishlist",
+          });
+        }
+
+        const insertSql = `
+          INSERT INTO wishlist
+          (user_id, product_id, service_id)
+          VALUES (?, NULL, ?)
+        `;
+
+        db.query(
+          insertSql,
+          [user_id, item_id],
+          (err, result) => {
+
+            if (err) {
+              console.error(
+                "Error adding service to wishlist:",
+                err
+              );
+
+              return res.status(500).json({
+                message: "Failed to add service to wishlist",
+              });
+            }
+
+            res.status(201).json({
+              message: "Service added to wishlist",
+              wishlist_id: result.insertId,
+            });
+          }
+        );
+      }
+    );
+
+    return;
+  }
+
+
+  // ================================================
+  // INVALID TYPE
+  // ================================================
+  return res.status(400).json({
+    message: "Invalid item_type. Use product or service.",
   });
 });
 
-// ==========================================
-// REMOVE FROM WISHLIST
-// ==========================================
+
+// ======================================================
+// REMOVE PRODUCT OR SERVICE FROM WISHLIST
+// ======================================================
 router.delete("/", (req, res) => {
+
   const {
     user_id,
     item_id,
@@ -178,31 +296,87 @@ router.delete("/", (req, res) => {
     });
   }
 
-  const column =
-    item_type === "product"
-      ? "product_id"
-      : "service_id";
 
-  const sql = `
-    DELETE FROM wishlist
-    WHERE user_id = ?
-      AND ${column} = ?
-  `;
+  // ================================================
+  // REMOVE PRODUCT
+  // ================================================
+  if (item_type === "product") {
 
-  db.query(sql, [user_id, item_id], (err, result) => {
-    if (err) {
-      console.error("Error removing wishlist:", err);
+    const sql = `
+      DELETE FROM wishlist
+      WHERE user_id = ?
+        AND product_id = ?
+    `;
 
-      return res.status(500).json({
-        message: "Failed to remove item from wishlist",
-      });
-    }
+    db.query(
+      sql,
+      [user_id, item_id],
+      (err, result) => {
 
-    res.json({
-      message: "Item removed from wishlist",
-      deleted: result.affectedRows > 0,
-    });
+        if (err) {
+          console.error(
+            "Error removing product from wishlist:",
+            err
+          );
+
+          return res.status(500).json({
+            message: "Failed to remove product from wishlist",
+          });
+        }
+
+        return res.json({
+          message: "Product removed from wishlist",
+          deleted: result.affectedRows > 0,
+        });
+      }
+    );
+
+    return;
+  }
+
+
+  // ================================================
+  // REMOVE SERVICE
+  // ================================================
+  if (item_type === "service") {
+
+    const sql = `
+      DELETE FROM wishlist
+      WHERE user_id = ?
+        AND service_id = ?
+    `;
+
+    db.query(
+      sql,
+      [user_id, item_id],
+      (err, result) => {
+
+        if (err) {
+          console.error(
+            "Error removing service from wishlist:",
+            err
+          );
+
+          return res.status(500).json({
+            message: "Failed to remove service from wishlist",
+          });
+        }
+
+        return res.json({
+          message: "Service removed from wishlist",
+          deleted: result.affectedRows > 0,
+        });
+      }
+    );
+
+    return;
+  }
+
+
+  return res.status(400).json({
+    message: "Invalid item_type. Use product or service.",
   });
 });
+
 
 module.exports = router;

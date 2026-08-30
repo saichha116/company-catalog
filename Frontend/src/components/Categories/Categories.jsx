@@ -5,15 +5,23 @@ function Categories() {
   const navigate = useNavigate();
 
   const categories = [
-    { title: "Sign Boards" },
-    { title: "Signage Materials" },
-    { title: "Stationery" },
-    { title: "Cleaning Supplies" },
+    {
+      title: "Sign Boards",
+      className: "category-1",
+    },
+    {
+      title: "Signage Materials",
+      className: "category-2",
+    },
+    {
+      title: "Stationery",
+      className: "category-3",
+    },
+    {
+      title: "Cleaning Supplies",
+      className: "category-4",
+    },
   ];
-
-  const handleCategoryClick = (category) => {
-    navigate(`/products?category=${encodeURIComponent(category)}`);
-  };
 
   return (
     <section className="categories">
@@ -25,15 +33,25 @@ function Categories() {
 
       <div className="category-container">
 
-        {categories.map((item, index) => (
+        {categories.map((item) => (
           <div
-            className="category-card"
-            key={index}
-            onClick={() => handleCategoryClick(item.title)}
+            key={item.title}
+            className={`category-card ${item.className}`}
+            onClick={() =>
+              navigate(
+                `/products?category=${encodeURIComponent(
+                  item.title
+                )}`
+              )
+            }
           >
-            <div className="image-placeholder"></div>
+            <div className="category-overlay">
+              <h3>{item.title}</h3>
 
-            <h3>{item.title}</h3>
+              <span>
+                Explore Products →
+              </span>
+            </div>
           </div>
         ))}
 

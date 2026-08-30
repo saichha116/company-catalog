@@ -33,7 +33,7 @@ const services = [
     id: 4,
     title: "Letterhead Printing",
     category: "Printing",
-    price: "rs20 - Rs35",
+    price: "Rs20 - Rs35",
     
     image: "/images/letterhead.jpg",
   },
@@ -55,7 +55,7 @@ const services = [
     id: 6,
     title: "Custom Branding",
     category: "Branding",
-    price: "rs40 - Rs60",
+    price: "  Rs40 - Rs60",
    
     image: "/images/logo-design.jpg",
   },

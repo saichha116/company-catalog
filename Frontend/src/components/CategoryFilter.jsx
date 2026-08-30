@@ -1,53 +1,71 @@
 import { useState } from "react";
 import "../styles/CategoryFilter.css";
 
-function CategoryFilter({ selectedCategory, setSelectedCategory }) {
+function CategoryFilter({
+  selectedCategory,
+  setSelectedCategory,
+}) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const categories = [
-    "All",
     "Sign Boards",
-    "Signature Materials",
+    "Signage Materials",
     "Cleaning Supplies",
   ];
 
   const stationeryItems = [
-    "Paper",
     "Writing",
     "Computer Media",
+    "Paper",
     "Desk & Tools",
   ];
 
   return (
     <div className="category-container">
+
+      {/* ALL */}
       <button
-        className={selectedCategory === "All" ? "active" : ""}
+        type="button"
+        className={
+          selectedCategory === "All" ? "active" : ""
+        }
         onClick={() => setSelectedCategory("All")}
       >
         All
       </button>
 
+
+      {/* OFFICE STATIONERY DROPDOWN */}
       <div
         className="dropdown-wrapper"
         onMouseEnter={() => setShowDropdown(true)}
         onMouseLeave={() => setShowDropdown(false)}
       >
+
         <button
+          type="button"
           className={
-            selectedCategory === "Stationery" ||
+            selectedCategory === "Office Stationery" ||
             stationeryItems.includes(selectedCategory)
               ? "active"
               : ""
           }
-          onClick={() => setSelectedCategory("Stationery")}
+          onClick={() =>
+            setSelectedCategory("Office Stationery")
+          }
         >
-          Stationery ▼
+          Office Stationery
+          <span className="dropdown-arrow">▼</span>
         </button>
 
+
+        {/* DROPDOWN */}
         {showDropdown && (
           <div className="dropdown-menu">
+
             {stationeryItems.map((item) => (
-              <div
+              <button
+                type="button"
                 key={item}
                 className="dropdown-item"
                 onClick={() => {
@@ -56,21 +74,33 @@ function CategoryFilter({ selectedCategory, setSelectedCategory }) {
                 }}
               >
                 {item}
-              </div>
+              </button>
             ))}
+
           </div>
         )}
+
       </div>
 
-      {categories.slice(1).map((category) => (
+
+      {/* OTHER CATEGORIES */}
+      {categories.map((category) => (
         <button
+          type="button"
           key={category}
-          className={selectedCategory === category ? "active" : ""}
-          onClick={() => setSelectedCategory(category)}
+          className={
+            selectedCategory === category
+              ? "active"
+              : ""
+          }
+          onClick={() =>
+            setSelectedCategory(category)
+          }
         >
           {category}
         </button>
       ))}
+
     </div>
   );
 }

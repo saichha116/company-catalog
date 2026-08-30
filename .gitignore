@@ -13,4 +13,4 @@ build/
 
 # Logs
 *.log
-npm-debug.log*
+npm-debug.log*backend/.env

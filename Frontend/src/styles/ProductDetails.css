@@ -11,6 +11,7 @@
   background: #f7f7f8;
 
   box-sizing: border-box;
+  text-align: center;
 }
 
 
@@ -23,6 +24,7 @@
   max-width: 1800px;
 
   margin: 0 auto;
+  text-align: center;
 }
 
 
@@ -45,6 +47,7 @@
 
   box-shadow:
     0 8px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
 }
 
 
@@ -144,6 +147,7 @@
   padding: 45px 60px;
 
   box-sizing: border-box;
+  text-align: center;
 }
 
 
@@ -163,6 +167,7 @@
   text-transform: uppercase;
 
   letter-spacing: 1.5px;
+  text-align: center;
 }
 
 
@@ -178,6 +183,7 @@
   font-size: 46px;
 
   line-height: 1.15;
+  text-align: center;
 }
 
 
@@ -223,6 +229,7 @@
   font-size: 16px;
 
   line-height: 1.7;
+  text-align: center;
 }
 
 
@@ -345,7 +352,11 @@
   background: #111;
 
   color: white;
+  width : 80%;
+  border : none;
+  border-radius: 10px;
 }
+
 
 
 .product-add-cart-button:hover {

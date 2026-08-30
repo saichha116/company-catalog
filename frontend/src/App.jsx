@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import {
@@ -45,32 +45,54 @@ function App() {
   // =========================
 
   const [searchTerm, setSearchTerm] = useState("");
-
-
   // =========================
   // CART
   // =========================
 
   const [cart, setCart] = useState([]);
-
-
   // =========================
   // WISHLIST
   // =========================
 
   const [wishlist, setWishlist] = useState([]);
+  useEffect(() => {
+  const savedUser = localStorage.getItem("user");
 
+  if (!savedUser) {
+    return;
+  }
 
+  try {
+    const user = JSON.parse(savedUser);
+
+    if (!user?.id) {
+      return;
+    }
+
+    fetch(`http://localhost:5000/api/wishlist/${user.id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load wishlist");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setWishlist(data);
+      })
+      .catch((error) => {
+        console.error("Error loading wishlist:", error);
+      });
+  } catch (error) {
+    console.error("Invalid user data:", error);
+  }
+}, []);
   return (
-
     <BrowserRouter>
-
       <Routes>
-
         {/* =================================================
             MAIN WEBSITE
         ================================================= */}
-
         <Route
           path="/"
           element={
@@ -84,13 +106,10 @@ function App() {
                 wishlist={wishlist}
                 setWishlist={setWishlist}
               />
-
               <Footer />
             </>
           }
         />
-
-
         {/* ABOUT */}
 
         <Route
@@ -108,7 +127,6 @@ function App() {
             </>
           }
         />
-
 
         {/* CONTACT */}
 

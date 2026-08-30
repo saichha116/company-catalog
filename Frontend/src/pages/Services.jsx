@@ -1,17 +1,32 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import HeroBanner from "../components/HeroBanner";
 import CategoryBar from "../components/CategoryBar";
 import ServiceGrid from "../components/ServiceGrid";
-
-import "../components/Services/Services.css";
+import "../styles/service.css";
 
 function Services({
-  searchTerm = "",
+  searchTerm,
   wishlist,
   setWishlist,
 }) {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchParams] = useSearchParams();
+
+  const categoryFromURL = searchParams.get("category");
+
+  const [activeCategory, setActiveCategory] = useState(
+    categoryFromURL || "All"
+  );
+
+  // ===============================
+  // UPDATE CATEGORY FROM URL
+  // ===============================
+
+  useEffect(() => {
+    setActiveCategory(categoryFromURL || "All");
+  }, [categoryFromURL]);
 
   return (
     <>
@@ -24,7 +39,7 @@ function Services({
 
       <ServiceGrid
         activeCategory={activeCategory}
-        searchTerm={searchTerm}
+        searchTerm={searchTerm || ""}
         wishlist={wishlist}
         setWishlist={setWishlist}
       />
@@ -33,3 +48,4 @@ function Services({
 }
 
 export default Services;
+
