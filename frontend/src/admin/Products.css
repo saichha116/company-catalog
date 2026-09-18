@@ -1,0 +1,85 @@
+.product-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 25px;
+}
+
+.add-btn {
+background: #2563eb;
+color: white;
+border: none;
+padding: 12px 20px;
+border-radius: 6px;
+cursor: pointer;
+}
+
+.product-table {
+width: 100%;
+background: white;
+border-collapse: collapse;
+}
+
+.product-table th {
+background: #111827;
+color: white;
+padding: 15px;
+text-align: left;
+}
+
+.product-table td {
+padding: 15px;
+border-bottom: 1px solid #ddd;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+background: #16a34a !important;
+color: white !important;
+border: none !important;
+padding: 8px 12px;
+border-radius: 5px;
+margin-right: 8px;
+cursor: pointer;
+}
+
+/* DELETE BUTTON */
+.edit-btn,
+.delete-btn {
+display: inline-flex !important;
+align-items: center;
+justify-content: center;
+width: 70px !important;
+height: 36px;
+padding: 0 !important;
+border: none !important;
+border-radius: 5px;
+cursor: pointer;
+font-size: 14px;
+box-sizing: border-box;
+vertical-align: middle;
+}
+
+.edit-btn {
+background: #16a34a !important;
+color: white !important;
+margin-right: 8px;
+}
+
+.delete-btn {
+background: #dc2626 !important;
+color: white !important;
+margin: 0 !important;
+}
+
+.edit-btn:hover {
+background: #15803d !important;
+}
+
+.delete-btn:hover {
+background: #b91c1c !important;
+}
+
+.product-table td:last-child {
+white-space: nowrap;
+}
