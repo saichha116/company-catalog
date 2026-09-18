@@ -1,0 +1,329 @@
+/* =========================================================
+   CHECKOUT PAGE
+========================================================= */
+
+.checkout-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 25px 5vw 30px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CHECKOUT TITLE
+========================================================= */
+
+.checkout-page > h1 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 22px;
+  color: #222;
+}
+
+
+/* =========================================================
+   MAIN CHECKOUT CONTAINER
+========================================================= */
+
+.checkout-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 30px;
+  align-items: start;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CHECKOUT BOX
+========================================================= */
+
+.checkout-box {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 220px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   BOX HEADING
+========================================================= */
+
+.box-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.heading-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.box-heading h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #222;
+}
+
+.box-heading p {
+  font-size: 11px;
+  margin: 3px 0 0;
+  color: #555;
+}
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+.checkout-items {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkout-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 100px;
+  align-items: center;
+  gap: 15px;
+  box-sizing: border-box;
+}
+
+.checkout-item img {
+  width: 70px;
+  height: 60px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+}
+
+.quantity {
+  background: #f7f3f3;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.empty-message {
+  width: 100%;
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+
+/* =========================================================
+   CUSTOMER FORM
+========================================================= */
+
+.customer-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.customer-form input,
+.customer-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 0 0 12px;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.customer-form input {
+  height: 40px;
+}
+
+.customer-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.customer-form input:focus,
+.customer-form textarea:focus {
+  border-color: #218c68;
+}
+
+
+/* =========================================================
+   WHATSAPP BUTTON CONTAINER
+========================================================= */
+
+.checkout-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   WHATSAPP BUTTON
+========================================================= */
+
+.whatsapp-button {
+  width: 295px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background: #218c68;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition: background 0.2s ease;
+}
+
+.whatsapp-button:hover {
+  background: #197553;
+}
+
+.whatsapp-icon {
+  font-size: 22px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .checkout-page {
+    padding: 25px 30px 30px;
+  }
+
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .checkout-box {
+    min-height: auto;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .checkout-page {
+    padding: 20px 15px 25px;
+  }
+
+  .checkout-page > h1 {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .checkout-box {
+    padding: 15px;
+    min-height: auto;
+  }
+
+  .box-heading {
+    margin-bottom: 15px;
+  }
+
+  .checkout-item {
+    grid-template-columns: 55px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .checkout-item img {
+    width: 55px;
+    height: 50px;
+  }
+
+  .quantity {
+    grid-column: 2;
+    width: fit-content;
+  }
+
+  .checkout-button-container {
+    margin-top: 15px;
+  }
+
+  .whatsapp-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .checkout-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .checkout-box {
+    padding: 12px;
+  }
+
+  .box-heading h2 {
+    font-size: 14px;
+  }
+
+  .box-heading p {
+    font-size: 10px;
+  }
+
+}
